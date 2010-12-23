@@ -43,8 +43,8 @@ function smarty_function_touchrandimg($params, &$smarty) {
   global $gCms;
 
   // Declare only if not declared...
-  if(!function_exists('touchLinkmap2Array')) {
-    function touchLinkmap2Array($map=array()) {
+  if(!function_exists('touchLinkMap2Array')) {
+    function touchLinkMap2Array($map=array()) {
       $resultMap=array();
       foreach($map AS $k => $v) {
         $tmp = explode(":",$v,2);
@@ -58,28 +58,27 @@ function smarty_function_touchrandimg($params, &$smarty) {
 
   $config = &$gCms->config;
 
-  // Grep params
-  $folder = !empty($params['folder']) 
-    ? $params['folder'] : "touchrandimg";
+  $defaults = array(
+    'folder' => 'touchrandimg',
+    'max_img' => 0,
+    'link_map' => null,
+    'link_target' => '_self'
+  );
+  $params = array_merge($defaults,$params);
 
-  $maxImg = !empty($params['max_img']) 
-    ? (int)$params['max_img'] : 1;
-
-  $linkMap = !empty($params['link_map']) 
-    ? touchLinkmap2Array(explode(",",$params['link_map'])) : NULL;
-
-  $linkTarget = !empty($params['link_target']) 
-    ? explode(",",$params['link_target']) : "_self";
+  // Build link map
+  $touchLinkMap = !empty($params['link_map']) 
+    ? touchLinkMap2Array(explode(",",$params['link_map'])) : null;
 
   // Set path and url
-  $touchRandImgPath = $config['uploads_path'] . "/" . $folder . "/";
-  $touchRandImgUrl = $config['uploads_url'] . "/" . $folder . "/";
+  $touchRandImgPath = $config['uploads_path'] . "/" . $params['folder'] . "/";
+  $touchRandImgUrl = $config['uploads_url'] . "/" . $params['folder'] . "/";
 
   if(!is_dir($touchRandImgPath)) {
     mkdir($touchRandImgPath);
   }
 
-  // Load image files
+  // Load images
   $touchRandImgFiles = scandir($touchRandImgPath);
 
   $c=0; $html=""; shuffle($touchRandImgFiles);
@@ -92,18 +91,18 @@ function smarty_function_touchrandimg($params, &$smarty) {
     $src = $touchRandImgUrl . $img;
     list($width,$height) = getimagesize($touchRandImgPath . $img);
 
-    if(isset($linkMap[$img])) {
-      $html .= "<a class=\"touchRandImgLink\" target=\"$linkTarget\" href=\"" . $linkMap[$img]['url'] . "\">";
+    if(isset($touchLinkMap[$img])) {
+      $html .= "<a class=\"touchRandImgLink\" target=\"" . $params['link_target'] . "\" href=\"" . $touchLinkMap[$img]['url'] . "\">";
     }
 
     $html .= "<img class=\"touchRandImg\" src=\"$src\" width=\"$width\" height=\"$height\" alt=\"$img\" title=\"$name\" />";
 
-    if(isset($linkMap[$img])) {
+    if(isset($touchLinkMap[$img])) {
       $html .= "</a>";
     }
 
     $c++;
-    if($c >= $maxImg) {
+    if($c >= $params['max_img']) {
       break;
     }
   }
