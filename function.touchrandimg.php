@@ -42,17 +42,31 @@
 function smarty_function_touchrandimg($params, &$smarty) {
   global $gCms;
 
+  // Declare only if not declared...
+  if(!function_exists('touchLinkmap2Array')) {
+    function touchLinkmap2Array($map=array()) {
+      $resultMap=array();
+      foreach($map AS $k => $v) {
+        $tmp = explode(":",$v,2);
+        $resultMap[$tmp[0]] = array(
+          'url' => $tmp[1]
+        );  
+      }
+      return $resultMap;
+    }
+  }
+
   $config = &$gCms->config;
 
   // Grep params
-  $folder = !empty($params['folder'])
+  $folder = !empty($params['folder']) 
     ? $params['folder'] : "touchrandimg";
 
   $maxImg = !empty($params['max_img']) 
     ? (int)$params['max_img'] : 1;
 
   $linkMap = !empty($params['link_map']) 
-    ? linkmap2array(explode(",",$params['link_map'])) : NULL;
+    ? touchLinkmap2Array(explode(",",$params['link_map'])) : NULL;
 
   $linkTarget = !empty($params['link_target']) 
     ? explode(",",$params['link_target']) : "_self";
@@ -90,7 +104,7 @@ function smarty_function_touchrandimg($params, &$smarty) {
 
     $c++;
     if($c >= $maxImg) {
-      break; 
+      break;
     }
   }
 
@@ -99,18 +113,6 @@ function smarty_function_touchrandimg($params, &$smarty) {
   }
 
   return "\n<!-- touchRandImg plugin -->\n" . $html . "\n<!-- /touchRandImg plugin -->\n";
-}
-
-function linkmap2array($map=array()) {
-  $resultMap=array();
-  foreach($map AS $k => $v) {
-    $tmp = explode(":",$v,2);
-    $resultMap[$tmp[0]] = array(
-      'url' => $tmp[1]
-    );  
-  }
-
-  return $resultMap;
 }
 
 function smarty_cms_help_function_touchrandimg() {
