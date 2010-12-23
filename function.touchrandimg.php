@@ -58,12 +58,10 @@ function smarty_function_touchrandimg($params, &$smarty) {
     ? explode(",",$params['link_target']) : "_self";
 
   // Set path and url
-  $touchRandImgPath = $config['uploads_path'] . DIRECTORY_SEPARATOR 
-    . $folder . DIRECTORY_SEPARATOR;
-  $touchRandImgUrl = $config['uploads_url'] . DIRECTORY_SEPARATOR 
-    . $folder . DIRECTORY_SEPARATOR;
+  $touchRandImgPath = $config['uploads_path'] . "/" . $folder . "/";
+  $touchRandImgUrl = $config['uploads_url'] . "/" . $folder . "/";
 
-  if(!is_dir($touchRandImgPath)){
+  if(!is_dir($touchRandImgPath)) {
     mkdir($touchRandImgPath);
   }
 
@@ -71,40 +69,40 @@ function smarty_function_touchrandimg($params, &$smarty) {
   $touchRandImgFiles = scandir($touchRandImgPath);
 
   $c=0; $html=""; shuffle($touchRandImgFiles);
-  foreach($touchRandImgFiles AS $img){
-    if(!is_file($touchRandImgPath . $img)){
+  foreach($touchRandImgFiles AS $img) {
+    if(!is_file($touchRandImgPath . $img)) {
       continue;
     }
 
     $name = array_shift(explode(".",$img,2));
     $src = $touchRandImgUrl . $img;
 
-    if(isset($linkMap[$img])){
+    if(isset($linkMap[$img])) {
       $html .= "<a class=\"touchRandImgLink\" target=\"$linkTarget\" href=\"" . $linkMap[$img]['url'] . "\">";
-    }  
+    }
 
     $html .= "<img class=\"touchRandImg\" src=\"$src\" alt=\"$img\" title=\"$name\" />";
 
-    if(isset($linkMap[$img])){
+    if(isset($linkMap[$img])) {
       $html .= "</a>";
     }
 
     $c++;
-    if($c >= $maxImg){
+    if($c >= $maxImg) {
       break; 
     }
   }
 
-  if($c == 0){
+  if($c == 0) {
     return $touchRandImgPath . " has no images to randomize...";
   }
 
   return "\n<!-- touchRandImg plugin -->\n" . $html . "\n<!-- /touchRandImg plugin -->\n";
 }
 
-function linkmap2array($map=array()){
+function linkmap2array($map=array()) {
   $resultMap=array();
-  foreach($map AS $k => $v){
+  foreach($map AS $k => $v) {
     $tmp = explode(":",$v,2);
     $resultMap[$tmp[0]] = array(
       'url' => $tmp[1]
@@ -143,7 +141,7 @@ function smarty_cms_about_function_touchrandimg() {
   print "  <li>Author Christoph Gruber</li>";
   print "  <li>Support via <a href=\"http://www.homepage-community.de/index.php?topic=1705\">HPC</a></li>";
   print "  <li>License GPL 2.0</li>";
-  print "  <li>Version 1.0</li>";
+  print "  <li>Version 1.1</li>";
   print "</ul>";
 }
 
