@@ -76,12 +76,13 @@ function smarty_function_touchrandimg($params, &$smarty) {
 
     $name = array_shift(explode(".",$img,2));
     $src = $touchRandImgUrl . $img;
+    list($width,$height) = getimagesize($touchRandImgPath . $img);
 
     if(isset($linkMap[$img])) {
       $html .= "<a class=\"touchRandImgLink\" target=\"$linkTarget\" href=\"" . $linkMap[$img]['url'] . "\">";
     }
 
-    $html .= "<img class=\"touchRandImg\" src=\"$src\" alt=\"$img\" title=\"$name\" />";
+    $html .= "<img class=\"touchRandImg\" src=\"$src\" width=\"$width\" height=\"$height\" alt=\"$img\" title=\"$name\" />";
 
     if(isset($linkMap[$img])) {
       $html .= "</a>";
