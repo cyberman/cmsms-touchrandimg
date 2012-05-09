@@ -4,14 +4,13 @@
  *
  * touchRandImg Plugin
  *
- * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
+ * Copyright (c) 2010 touchdesign, <www.touchdesign.de>
  *
  * @category Plugin
- * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.1
- * @copyright touchDesign 28.08.2010
+ * @author Christin Gruber <www.touchdesign.de>
+ * @version 1.2
+ * @copyright touchdesign 28.08.2010
  * @link http://www.touchdesign.de/
- * @link http://www.homepage-community.de/index.php?topic=1705
  * @link http://dev.cmsmadesimple.org/projects/touchrandimg
  * @license http://www.gnu.org/licenses/licenses.html#GPL GNU General Public License (GPL 2.0)
  * 
@@ -139,9 +138,8 @@ function smarty_cms_about_function_touchrandimg() {
 
   print "<h3>About</h3>";
   print "<ul>";
-  print "  <li>Copyright by <a href=\"http://www.touchdesign.de/\">touchDesign</a></li>";
-  print "  <li>Author Christoph Gruber</li>";
-  print "  <li>Support via <a href=\"http://www.homepage-community.de/index.php?topic=1705\">HPC</a></li>";
+  print "  <li>Copyright by <a href=\"http://www.touchdesign.de/\">touchdesign</a></li>";
+  print "  <li>Author Christin Gruber</li>";
   print "  <li>License GPL 2.0</li>";
   print "  <li>Version 1.1</li>";
   print "</ul>";
